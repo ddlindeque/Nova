@@ -3,9 +3,6 @@
 namespace Nova
 {
 
-    Bit ConstantBits::alwaysHigh = Bit::High;
-    Bit ConstantBits::alwaysLow = Bit::Low;
-
     auto operator<<(std::ostream &s, const Bit &b) -> std::ostream &
     {
         switch (b)

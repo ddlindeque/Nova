@@ -1,15 +1,17 @@
 #include <iostream>
 
-#include "bit.h"
+#include "register.h"
 #include "bus.h"
-#include "control_bus.h"
+#include "bit.h"
+#include "incrementing_register.h"
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello test_opcodes" << std::endl;
-    Nova::ControlBus controlBus;
-    controlBus.AddressBusSelectPc();
+    Nova::Bus<1> readEnable;
+    Nova::Bus<1> writeEnable;
+    Nova::Bus<8> dataBus;
 
-    std::cout << controlBus << std::endl;
+    Nova::Register<8> reg(readEnable, writeEnable, dataBus);
+
     return 0;
 }

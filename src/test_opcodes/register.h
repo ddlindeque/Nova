@@ -2,6 +2,8 @@
 #define __REGISTERH
 
 #include <ostream>
+#include <random>
+
 #include "bit.h"
 #include "bus.h"
 
@@ -11,15 +13,14 @@ namespace Nova
     template <size_t width>
     struct Register
     {
-        Bit &readEnable;
-        Bit &writeEnable;
-
+        Bus<1> &readEnable;  // When enabled, the register can be 'read'
+        Bus<1> &writeEnable; // When enabled, the register will 'save' the value on the input pins during the clock pulse
         Bus<width> &dataBus;
 
-        bool data[width];
+        Bit data[width];
 
         Register() = delete;
-        Register(Bit &readEnable, Bit &writeEnable, Bus<width> &dataBus)
+        Register(Bus<1> &readEnable, Bus<1> &writeEnable, Bus<width> &dataBus)
             : readEnable(readEnable), writeEnable(writeEnable), dataBus(dataBus)
         {
         }
@@ -29,61 +30,71 @@ namespace Nova
         auto operator=(const Register &) -> Register & = delete;
         auto operator=(Register &&) -> Register & = delete;
 
-        auto getValue() -> unsigned long int
+        auto getValue(size_t index) const -> Bit
         {
-            unsigned long int result = data[0] ? 1 : 0;
-            for (size_t i = 1; i < width; ++i)
+            switch (readEnable.getValue(0))
             {
-                result << 1;
-                if (data[i])
+            case Bit::High:
+                switch (writeEnable.getValue(0))
                 {
-                    result |= 1;
+                case Bit::Low:
+                    return data[index];
+                default:
+                    return Bit::Undefined;
                 }
+            case Bit::Low:
+                switch (writeEnable.getValue(0))
+                {
+                case Bit::Low:
+                    return Bit::Low;
+                default:
+                    return Bit::Undefined;
+                }
+            default:
+                return Bit::Undefined;
             }
-            return result;
         }
 
-        auto pulse() -> bool
+        virtual auto pulse() -> bool
         {
-            switch (readEnable)
-            {
-            case Bit::Undefined: // data bus is undefined
-                for (size_t i = 0; i < width; ++i)
-                {
-                    dataBus.bits[i] = Bit::Undefined;
-                }
-                break;
-            case Bit::High: // Write data onto the bus
-                if (writeEnable != Bit::Low)
-                    return false;
-                for (size_t i = 0; i < width; ++i)
-                {
-                    dataBus.bits[i] = data[i] ? Bit::High : Bit::Low;
-                }
-                break;
-            }
-            switch (writeEnable)
+            switch (writeEnable.getValue(0))
             {
             case Bit::Undefined:
                 return false; // This is not a valid state
             case Bit::High:   // Read data from the bus
+                if (readEnable.getValue(0) != Bit::Low)
+                {
+                    return false;
+                }
                 for (size_t i = 0; i < width; ++i)
                 {
-                    switch (dataBus.bits[i])
+                    switch (dataBus.getValue(i))
                     {
                     case Bit::Undefined: // Cannot read undefined
                         return false;
                     case Bit::High:
-                        data[i] = true;
+                        data[i] = Bit::High;
                         break;
                     case Bit::Low:
-                        data[i] = false;
+                        data[i] = Bit::Low;
                         break;
                     }
                 }
                 return true;
+            default: // When LOW, we do not 'save' anything (we ignore the readEnable line)
+                return true;
             }
-            return true;
+        }
+
+        friend auto operator<<(std::ostream &s, const Register<width> &r) -> std::ostream &
+        {
+            s << "Register[";
+            for (size_t i = 0; i < width; ++i)
+            {
+                s << r.data[i];
+            }
+
+            return s << ']';
         }
     };
 
