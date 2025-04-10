@@ -1,8 +1,8 @@
 
 add_executable(test_opcodes
+                device.cpp
                 main.cpp
                 bit.cpp
                 bus.cpp
-                control_bus.cpp
-                register.cpp
-                counter.cpp)
+                logic.cpp
+                register.cpp)

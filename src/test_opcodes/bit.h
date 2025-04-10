@@ -14,11 +14,6 @@ namespace Nova
     };
 
     auto operator<<(std::ostream &, const Bit &) -> std::ostream &;
-
-    struct ConstantBits {
-        static Bit alwaysLow;
-        static Bit alwaysHigh;
-    };
 }
 
 #endif

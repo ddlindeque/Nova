@@ -4,72 +4,46 @@
 #include <ostream>
 #include "bit.h"
 #include "bus.h"
+#include "device.h"
+#include "logic.h"
 
 namespace Nova
 {
 
     template <size_t width>
-    struct Register
+    struct Register : public Devise
     {
-        Bit &readEnable;
-        Bit &writeEnable;
-
+        Bus<1> &writeEnable;
         Bus<width> &dataBus;
 
         bool data[width];
 
         Register() = delete;
-        Register(Bit &readEnable, Bit &writeEnable, Bus<width> &dataBus)
-            : readEnable(readEnable), writeEnable(writeEnable), dataBus(dataBus)
+        Register(Bus<1> &writeEnable, Bus<width> &dataBus)
+            : writeEnable(writeEnable), dataBus(dataBus)
         {
         }
-        Register(const Register &) = delete;
-        Register(Register &&) = delete;
+        Register(const Register &) = default;
+        Register(Register &&) = default;
 
         auto operator=(const Register &) -> Register & = delete;
         auto operator=(Register &&) -> Register & = delete;
 
-        auto getValue() -> unsigned long int
+        auto getValue(size_t index) const -> Bit
         {
-            unsigned long int result = data[0] ? 1 : 0;
-            for (size_t i = 1; i < width; ++i)
-            {
-                result << 1;
-                if (data[i])
-                {
-                    result |= 1;
-                }
-            }
-            return result;
+            return data[index] ? Bit::High : Bit::Low;
         }
 
-        auto pulse() -> bool
+        auto pulse() -> bool override
         {
-            switch (readEnable)
-            {
-            case Bit::Undefined: // data bus is undefined
-                for (size_t i = 0; i < width; ++i)
-                {
-                    dataBus.bits[i] = Bit::Undefined;
-                }
-                break;
-            case Bit::High: // Write data onto the bus
-                if (writeEnable != Bit::Low)
-                    return false;
-                for (size_t i = 0; i < width; ++i)
-                {
-                    dataBus.bits[i] = data[i] ? Bit::High : Bit::Low;
-                }
-                break;
-            }
-            switch (writeEnable)
+            switch (writeEnable.getValue(0))
             {
             case Bit::Undefined:
                 return false; // This is not a valid state
             case Bit::High:   // Read data from the bus
                 for (size_t i = 0; i < width; ++i)
                 {
-                    switch (dataBus.bits[i])
+                    switch (dataBus.getValue(i))
                     {
                     case Bit::Undefined: // Cannot read undefined
                         return false;
@@ -82,9 +56,55 @@ namespace Nova
                     }
                 }
                 return true;
+            default:
+                return true;
             }
-            return true;
         }
+
+        friend auto operator<<(std::ostream &s, const Register &reg) -> std::ostream &
+        {
+            for (size_t i = 0; i < width; ++i)
+            {
+                s << reg.getValue(width - i - 1);
+            }
+            return s;
+        }
+    };
+
+    template <size_t width>
+    struct IncrementableRegister : public Register<width>
+    {
+        Bus<1> &incrementEnable;
+
+        IncrementableRegister() = delete;
+        IncrementableRegister(Bus<1> &incrementEnable, Bus<1> &writeEnable, Bus<width> &dataBus)
+            : Register<width>(writeEnable, dataBus), incrementEnable(incrementEnable)
+        {
+        }
+        IncrementableRegister(const IncrementableRegister &) = default;
+        IncrementableRegister(IncrementableRegister &&) = default;
+
+        auto operator=(const IncrementableRegister &) -> IncrementableRegister & = delete;
+        auto operator=(IncrementableRegister &&) -> IncrementableRegister & = delete;
+
+        auto pulse() -> bool override
+        {
+            switch (incrementEnable.getValue(0))
+            {
+            case Bit::Undefined:
+                return false;
+            case Bit::High:
+                if (Register<width>::writeEnable.getValue(0) != Bit::Low)
+                {
+                    return false;
+                }
+                inc<width>(Register<width>::data);
+                return true;
+            default:
+                return Register<width>::pulse();
+            }
+        }
+
     };
 
 }

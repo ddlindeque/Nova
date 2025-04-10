@@ -1,42 +1,31 @@
 #ifndef __BUSH
 #define __BUSH
 
-#include <ostream>
+#include <functional>
 #include "bit.h"
 
 namespace Nova
 {
-
     template <size_t width>
     struct Bus
     {
-        Bit bits[width];
+        typedef std::function<Bit(size_t)> ReadBit;
 
-        Bus()
-        {
-            reset();
-        }
+        ReadBit readBits;
+
+        Bus() = delete;
+        explicit Bus(const ReadBit &readBits) : readBits(readBits) {}
         Bus(const Bus &) = default;
         Bus(Bus &&) = default;
 
         auto operator=(const Bus &) -> Bus & = default;
         auto operator=(Bus &&) -> Bus & = default;
 
-        auto reset() -> void
+        auto getValue(size_t index) const -> Bit
         {
-            for (size_t i = 0; i < width; ++i)
-                bits[i] = Bit::Undefined;
-        }
-
-        friend auto operator<<(std::ostream &s, const Bus &b) -> std::ostream &
-        {
-            for (size_t i = 0; i < width; ++i)
-                s << b.bits[i];
-
-            return s;
+            return readBits(index);
         }
     };
-
 }
 
 #endif
