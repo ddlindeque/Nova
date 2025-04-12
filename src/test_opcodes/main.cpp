@@ -5,8 +5,12 @@
 #include "register.h"
 #include "logic.h"
 
+#include "tests.h"
+
 int main(int argc, char *argv[])
 {
+    Nova::runTests();
+
     std::cout << "Hello test_opcodes" << std::endl;
 
     Nova::Bit enableWriteBit = Nova::Bit::Low;

@@ -26,8 +26,8 @@ namespace Nova
         Register(const Register &) = default;
         Register(Register &&) = default;
 
-        auto operator=(const Register &) -> Register & = delete;
-        auto operator=(Register &&) -> Register & = delete;
+        auto operator=(const Register &) -> Register & = default;
+        auto operator=(Register &&) -> Register & = default
 
         auto getValue(size_t index) const -> Bit
         {

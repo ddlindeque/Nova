@@ -5,4 +5,5 @@ add_executable(test_opcodes
                 bit.cpp
                 bus.cpp
                 logic.cpp
-                register.cpp)
+                register.cpp
+                tests.cpp)

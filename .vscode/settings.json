@@ -46,7 +46,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "adder_16bit_h": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "sstream": "cpp"
     },
     "files.exclude": {
         "**/build": true
