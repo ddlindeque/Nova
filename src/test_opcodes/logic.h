@@ -5,11 +5,10 @@
 
 namespace Nova
 {
-
     template <size_t width>
     auto inc(bool reg[width]) -> void
     {
-        for (size_t i = 0; i < width; ++i)
+        for (size_t i = width - 1; i >= 0; --i)
         {
             if (reg[i])
             {
@@ -19,6 +18,23 @@ namespace Nova
             {
                 reg[i] = true;
                 return;
+            }
+        }
+    }
+
+    template <size_t width>
+    auto dec(bool reg[width]) -> void
+    {
+        for (size_t i = width - 1; i >= 0; --i)
+        {
+            if (reg[i])
+            {
+                reg[i] = false;
+                return;
+            }
+            else
+            {
+                reg[i] = true;
             }
         }
     }

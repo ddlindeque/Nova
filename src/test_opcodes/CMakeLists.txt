@@ -6,4 +6,5 @@ add_executable(test_opcodes
                 bus.cpp
                 logic.cpp
                 register.cpp
+                ring_counter.cpp
                 tests.cpp)
