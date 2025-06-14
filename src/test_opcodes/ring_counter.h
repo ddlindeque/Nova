@@ -48,7 +48,7 @@ namespace Nova
             {
             case Bit::Undefined:
                 return false; // This is not a valid state
-            case Bit::High:   // Read data from the bus
+            case Bit::High:   // Increment the register
                 if (zeroEnable.getValue(0) != Bit::Low)
                 {
                     return false;

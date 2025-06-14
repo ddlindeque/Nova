@@ -16,5 +16,4 @@ namespace Nova
             return s << 'E';
         }
     }
-
 }
