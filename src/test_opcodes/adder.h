@@ -11,9 +11,10 @@ namespace Nova
     {
         Bus<width> &dataA;
         Bus<width> &dataB;
+        Bus<1> &carry;
 
-        Add(Bus<width> &dataA, Bus<width> &dataB)
-            : dataA(dataA), dataB(dataB)
+        Add(Bus<width> &dataA, Bus<width> &dataB, Bus<1> &carry)
+            : dataA(dataA), dataB(dataB), carry(carry)
         {
         }
 
@@ -21,7 +22,8 @@ namespace Nova
         {
             auto a = dataA.getRepresentedValue();
             auto b = dataB.getRepresentedValue();
-            return getBit<width>(a + b, index);
+            auto c = carry.getRepresentedValue();
+            return getBit<width>(a + b + c, index);
         }
     };
 
@@ -29,8 +31,8 @@ namespace Nova
     struct Adder : public Bus<width>
     {
         Adder() = delete;
-        Adder(Bus<width> &dataA, Bus<width> &dataB)
-            : Bus<width>(Add<width>(dataA, dataB))
+        Adder(Bus<width> &dataA, Bus<width> &dataB, Bus<1> &carry)
+            : Bus<width>(Add<width>(dataA, dataB, carry))
         {
         }
         Adder(const Adder &) = default;

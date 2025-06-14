@@ -12,6 +12,8 @@
 #include "register.h"
 #include "ring_counter.h"
 #include "ram.h"
+#include "not.h"
+#include "negator.h"
 #include "adder.h"
 
 namespace Nova
@@ -45,6 +47,7 @@ namespace Nova
     auto runLogicTests() -> void
     {
         std::cout << "Running Logic tests..." << std::endl;
+        // Inc tests
         {
             // 00 => 01
             bool r1[2] = {false, false};
@@ -73,6 +76,7 @@ namespace Nova
             assert(r1[0] == false);
             assert(r1[1] == false);
         }
+        // Dec tests
         {
             // 00 => 11
             bool r1[2] = {false, false};
@@ -100,6 +104,35 @@ namespace Nova
             Nova::dec<2>(r1);
             assert(r1[0] == true);
             assert(r1[1] == false);
+        }
+        // Not tests
+        {
+            // !000 = 111
+            Bit data[] = { Bit::Low, Bit::Low, Bit::Low };
+            Bus<3> d([&data](auto index){ return data[index]; });
+            Nova::Notter<3> n(d);
+            assert(n.getRepresentedValue() == 7);
+        }
+        {
+            // !001 = 110
+            Bit data[] = { Bit::Low, Bit::Low, Bit::High };
+            Bus<3> d([&data](auto index){ return data[index]; });
+            Nova::Notter<3> n(d);
+            assert(n.getRepresentedValue() == 6);
+        }
+        {
+            // !111 = 000
+            Bit data[] = { Bit::High, Bit::High, Bit::High };
+            Bus<3> d([&data](auto index){ return data[index]; });
+            Nova::Notter<3> n(d);
+            assert(n.getRepresentedValue() == 0);
+        }
+        {
+            // !101 = 010
+            Bit data[] = { Bit::High, Bit::Low, Bit::High };
+            Bus<3> d([&data](auto index){ return data[index]; });
+            Nova::Notter<3> n(d);
+            assert(n.getRepresentedValue() == 2);
         }
         std::cout << "Logic tests complete" << std::endl;
     }
@@ -368,6 +401,32 @@ namespace Nova
         std::cout << "RAM tests complete" << std::endl;
     }
 
+    auto runNegateTests() -> void
+    {
+        std::cout << "Running Negate tests..." << std::endl;
+        {
+            Nova::Bit data[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> d([&data](auto index) { return data[index]; });
+
+            Negator<3> neg(d);
+            
+            setBits<3>(data, 0);
+
+            assert(neg.getRepresentedValue() == 0);
+        }
+
+        {
+            Nova::Bit data[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> d([&data](auto index) { return data[index]; });
+
+            Negator<3> neg(d);
+            
+            setBits<3>(data, 1);
+
+            assert(neg.getRepresentedValue() == 7);
+        }
+    }
+
     auto runAdderTests() -> void
     {
         std::cout << "Running Adder tests..." << std::endl;
@@ -376,8 +435,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 0);
             setBits<3>(dataB, 0);
@@ -390,8 +451,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 1);
             setBits<3>(dataB, 0);
@@ -404,8 +467,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 2);
             setBits<3>(dataB, 0);
@@ -418,8 +483,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 5);
             setBits<3>(dataB, 0);
@@ -432,8 +499,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 0);
             setBits<3>(dataB, 1);
@@ -446,8 +515,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 0);
             setBits<3>(dataB, 2);
@@ -460,8 +531,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 0);
             setBits<3>(dataB, 5);
@@ -474,8 +547,10 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 1);
             setBits<3>(dataB, 1);
@@ -488,13 +563,52 @@ namespace Nova
             Bus<3> a([&dataA](auto index) { return dataA[index]; });
             Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
             Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
 
-            Adder<3> addr(a, b);
+            Adder<3> addr(a, b, c);
             
             setBits<3>(dataA, 2);
             setBits<3>(dataB, 5);
 
             assert(addr.getRepresentedValue() == 7);
+        }
+
+        {
+            Nova::Bit dataA[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> a([&dataA](auto index) { return dataA[index]; });
+            Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
+
+            Adder<3> addr(a, b, c);
+            
+            setBits<3>(dataA, 2);
+            setBits<3>(dataB, 3);
+            carry = Nova::Bit::High;
+
+            assert(addr.getRepresentedValue() == 6);
+        }
+
+        // Two's compliment tests
+
+        {
+            Nova::Bit dataA[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> a([&dataA](auto index) { return dataA[index]; });
+            Nova::Bit dataB[] = {Nova::Bit::Low, Nova::Bit::Low, Nova::Bit::Low};
+            Bus<3> b([&dataB](auto index) { return dataB[index]; });
+            Negator<3> negB(b);
+            Nova::Bit carry = Nova::Bit::Low;
+            Bus<1> c([&carry](auto index) { return carry; });
+
+            Adder<3> addr(a, negB, c);
+            
+            setBits<3>(dataA, 6);
+            setBits<3>(dataB, 2);
+            carry = Nova::Bit::Low;
+
+            assert(addr.getRepresentedValue() == 4);
         }
     }
 
@@ -505,6 +619,7 @@ namespace Nova
         runLogicTests();
         runRegisterTests();
         runRingCounterTests();
+        runNegateTests();
         runAdderTests();
         std::cout << "All tests complete" << std::endl
                   << std::endl;
