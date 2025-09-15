@@ -9,7 +9,7 @@
 | 1 | 0 | 0
 | 1 | 1 | Undefined
 
-![sr-latch](resources/sr-01.svg "SR Latch")
+![rs-latch](resources/rs-01.svg "rs Latch")
 
 ## Mono-stable 555 timer (Debouncer)
 
