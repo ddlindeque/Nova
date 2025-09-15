@@ -1,5 +1,16 @@
 # General circuits
 
+## RS latch
+
+| R | S | Q
+|-- |-- |--
+| 0 | 0 | Hold
+| 0 | 1 | 1
+| 1 | 0 | 0
+| 1 | 1 | Undefined
+
+![sr-latch](resources/sr-01.svg "SR Latch")
+
 ## Mono-stable 555 timer (Debouncer)
 
 This circuit is used to debounce a push button.
