@@ -1,6 +1,6 @@
 # Electronics - Clock & Power
 
-I wanted to have a devise to encapsulate the clock circuits, and since it seems to be the first devise in the design, it also caters for serving the power circuits. See the [general](../general/README.md) circuits for debouncing the *Manual Pulse* push button, and the *toggle* circuit for the *Enable/Disable* push button.
+I wanted to have a devise to encapsulate the clock circuits, and since it seems to be the first devise in the design, it also caters for serving the power circuits. See the [general](../0.1-general/README.md) circuits for debouncing the *Manual Pulse* push button, and the *toggle* circuit for the *Enable/Disable* push button.
 
 ## Panel
 
