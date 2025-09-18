@@ -51,6 +51,9 @@ We're using transistors for the single 3 way NAND and the NOR gates, both to ill
 
 ![CLK circuit](resources/clk.svg "CLK Circuit")
 
+We'll add an output transistor, simmular to the *Reset* circuit, to boost the output and avoid the voltage divider.
+
+
 ### Truth table
 
 The modes are exclusive, so all states where more than one mode is active is invalid, cannot happen and will be ignored.
