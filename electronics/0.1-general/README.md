@@ -42,9 +42,17 @@ This circuit is used to debounce a push button.
 | 1     | 1  | 1  | 1      | 0   | 0   | 0  | 1  | 0  | 1
 
 ```
-S1 = !RESET & !Q1 & Q2 & Button
-R1 = (Q1 & !Q2 & Button) | RESET
-S2 = !RESET & !Q1 & !Q2 & !Button
-R2 = (Q1 & Q2 & !Button) | RESET
+S1 = !RESET . !Q1 . Q2 . Button
+   = !(RESET + Q1 + !Q2 + !Button)
+   = NOR(RESET, Q1, !Q2, !Button)
+R1 = (Q1 . !Q2 . Button) + RESET
+   = !(!(Q1.!Q2.Button).!RESET)
+   = NAND(NAND(Q1,!Q2,Button), !RESET)
+S2 = !RESET . !Q1 . !Q2 . !Button
+   = !(RESET + Q1 + Q2 + Button)
+   = NOR(RESET, Q1, Q2, Button)
+R2 = (Q1 . Q2 . !Button) + RESET
+   = !(!(Q1.Q2.!Button).!RESET)
+   = NAND(NAND(Q1,Q2,!Button), !RESET)
 ```
 
