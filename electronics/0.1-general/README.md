@@ -43,8 +43,8 @@ This circuit is used to debounce a push button.
 
 ```
 S1 = !RESET & !Q1 & Q2 & Button
-R1 = (!RESET & Q1 & !Q2 & Button) | RESET
+R1 = (Q1 & !Q2 & Button) | RESET
 S2 = !RESET & !Q1 & !Q2 & !Button
-R2 = (!RESET & Q1 & Q2 & !Button) | RESET
+R2 = (Q1 & Q2 & !Button) | RESET
 ```
 
