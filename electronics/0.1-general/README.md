@@ -20,6 +20,25 @@ This circuit is used to debounce a push button.
 
 ## Toggle circuit
 
+| RESET | Q1 | Q2 | Button | Q1n | Q2n | S1 | R1 | S2 | R2
+|--     |--  |--  |--      |--   |--   |--  |--  |--  |--
+| 0     | 0  | 0  | 0      | 0   | 1   | 0  | X  | 1  | 0
+| 0     | 0  | 0  | 1      | 0   | 0   | 0  | X  | 0  | X
+| 0     | 0  | 1  | 0      | 0   | 1   | 0  | X  | X  | 0
+| 0     | 0  | 1  | 1      | 1   | 1   | 1  | 0  | X  | 0
+| 0     | 1  | 0  | 0      | 1   | 0   | 
+| 0     | 1  | 0  | 1      | 0   | 0
+| 0     | 1  | 1  | 0      | 1   | 0
+| 0     | 1  | 1  | 1      | 1   | 1
+| 1     | 0  | 0  | 0      | 0   | 0
+| 1     | 0  | 0  | 1      | 0   | 0
+| 1     | 0  | 1  | 0      | 0   | 0
+| 1     | 0  | 1  | 1      | 0   | 0
+| 1     | 1  | 0  | 0      | 0   | 0
+| 1     | 1  | 0  | 1      | 0   | 0
+| 1     | 1  | 1  | 0      | 0   | 0
+| 1     | 1  | 1  | 1      | 0   | 0
+
 Say we have an RS flip flop, with SET = S1, RESET = R1, Q = Q1 and 'Q = 'Q1, and we have a second RS flip flop with  SET = S2, RESET = R2, Q = Q2 and 'Q = 'Q2. We also have a RESET signal to reset the circuit. We have a button that'll have signal B high when the button is pressed.
 
 Note that 'Q = !Q, so we only have to model Q in our formulas.
