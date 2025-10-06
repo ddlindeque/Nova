@@ -11,6 +11,25 @@
 
 ![rs-latch](resources/rs.svg "rs Latch")
 
+### From NAND-gates
+
+![rs-latch](resources/nand_rs.PNG "rs Latch")
+
+* Q=0 => Q'=1
+* Q'=0 => Q=1
+* S=0, R=0 => Q=1 & Q'=1 => Unstable (not allowed)
+
+| Q | Q' | S | R | Q | Comment
+|-- |--  |-- |-- |-- |--
+| 0 | 1  | 0 | 1 | 1 | set
+| 0 | 1  | 1 | 0 | 0 | reset
+| 0 | 1  | 1 | 1 | 0 | hold
+| 1 | 0  | 0 | 1 | 1 | set
+| 1 | 0  | 1 | 0 | 0 | reset
+| 1 | 0  | 1 | 1 | 1 | hold  
+
+
+
 ## Mono-stable 555 timer (Debouncer)
 
 This circuit is used to debounce a push button.
