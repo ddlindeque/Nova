@@ -2,6 +2,8 @@
 
 ## RS latch
 
+### From transistors
+
 | R | S | Q
 |-- |-- |--
 | 0 | 0 | Hold
