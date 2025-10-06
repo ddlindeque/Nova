@@ -36,13 +36,14 @@ The panel has an *output* socket supplying Vcc, GND, the RESET signal, and the C
 I wanted to operate at 5V, but want to be able to use AC or a 9V batery as supply. I acomplish this by using a voltage regulator design, and some switches.
 
 ![power circuit](resources/power.svg "Power Circuit")
-![power circuit](resources/power.jpg "Power Circuit")
+<img src="resources/power.jpg" width="250" height="260" />
 
 ## Reset signal
 
 The entire computer will require a reset signal to reset the computer when the power comes on. This signal should last longer than the initial chaos that occur when the devise is switched on, so that we can be certain the entire computer *starts* at a well defined and known state. The *reset signal* is high for around 80 to 100 milliseconds after the power was switched on. A dip in power of around 50 milliseconds might trigger the signal afresh.
 
 ![reset circuit](resources/reset.svg "Reset Circuit")
+<img src="resources/reset.jpg" width="250" height="260" />
 
 ## Clock out
 
