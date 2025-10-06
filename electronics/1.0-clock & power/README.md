@@ -52,6 +52,7 @@ The entire computer will require a reset signal to reset the computer when the p
 We're using transistors for the single 3 way NAND and the NOR gates, both to illustrate and to save on chips.
 
 ![CLK circuit](resources/clk.svg "CLK Circuit")
+<img src="resources/clk.jpg" width="250" height="260" />
 
 We'll add an output transistor, simmular to the *Reset* circuit, to boost the output and avoid the voltage divider.
 
