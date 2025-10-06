@@ -68,8 +68,9 @@ The modes are exclusive, so all states where more than one mode is active is inv
 | 1 | 0 | 0 | 1 | X | X | 0 | 1 | 1 | 1
 
 ```
-E = !(D & Enabled) = !D + !Enabled.
-CLK = !(E + RESET) = !E & !RESET = D & Enabled & !RESET
+D = (Mode=Manual & ManualButton) | (Mode=Variable & VariableCLK) | (Mode=Fast & FastCLK)
+E = !D | !Enabled
+CLK = !(E | RESET) = !E & !RESET = !(!D | !Enabled) & !RESET = D & Enabled & !RESET
 ```
 
 | D | Enabled | RESET | CLK
