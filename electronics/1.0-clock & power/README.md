@@ -36,6 +36,7 @@ The panel has an *output* socket supplying Vcc, GND, the RESET signal, and the C
 I wanted to operate at 5V, but want to be able to use AC or a 9V batery as supply. I acomplish this by using a voltage regulator design, and some switches.
 
 ![power circuit](resources/power.svg "Power Circuit")
+![power circuit](resources/power.jpg "Power Circuit")
 
 ## Reset signal
 
