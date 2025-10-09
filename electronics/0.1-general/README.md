@@ -24,6 +24,10 @@
 | 1 | 0 | 1
 | 1 | 1 |Undefined
 
+## JK flip-flop
+
+
+
 ## Toggle circuit
 
 ![rs-latch](resources/toggle.svg)
