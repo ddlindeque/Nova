@@ -19,10 +19,10 @@
 
 | S | R | Q
 |-- |-- |--
-| 0 | 0 | Hold
+| 0 | 0 | Undefined
 | 0 | 1 | 0
 | 1 | 0 | 1
-| 1 | 1 |Undefined
+| 1 | 1 | Hold
 
 ## JK flip-flop
 
