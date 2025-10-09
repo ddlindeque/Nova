@@ -26,7 +26,7 @@
 
 ## JK flip-flop
 
-
+![jk-flip-flop](resources/jk.svg "jk")
 
 ## Toggle circuit
 
