@@ -46,9 +46,6 @@ S = !(K.Q) = !K + !Q
 | 1 | 1 | 0 | 1 | 0 | **Set** | 1
 | 1 | 1 | 1 | 0 | 1 | **Reset** | 0
 
-## Toggle circuit
-
-![rs-latch](resources/toggle.svg)
 
 ## Mono-stable 555 timer (Debouncer)
 
