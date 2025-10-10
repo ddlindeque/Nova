@@ -15,7 +15,7 @@
 
 ### From NAND-gates
 
-![rs-latch](resources/nand_rs.PNG "rs Latch")
+![rs-latch](resources/nand-rs.svg "rs Latch")
 
 | S | R | Q
 |-- |-- |--
