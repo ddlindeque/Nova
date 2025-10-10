@@ -28,6 +28,19 @@
 
 ![jk-flip-flop](resources/jk.svg "jk")
 
+When *E=0*, both *S=1* and *R=1*, thus the SR-Latch will **Hold**
+
+| J | K | Q | S | R | Action
+|-- |-- |-- |-- |-- |--
+| 0 | 0 | 0 | 1 | 1 | Hold
+| 0 | 0 | 1 | 1 | 1 | Hold
+| 0 | 1 | 0 | 1 | 1 | Hold
+| 0 | 1 | 1 | 1 | 0 | **Set**
+| 1 | 0 | 0 | 0 | 1 | **Reset**
+| 1 | 0 | 1 | 1 | 1 | Hold
+| 1 | 1 | 0 | 0 | 1 | **Reset**
+| 1 | 1 | 1 | 1 | 0 | **Set**
+
 ## Toggle circuit
 
 ![rs-latch](resources/toggle.svg)
