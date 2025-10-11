@@ -86,3 +86,39 @@ CLK = !(E | RESET) = !E & !RESET = !(!D | !Enabled) & !RESET = D & Enabled & !RE
 | 1 | 0 | 1 | 0
 | 1 | 1 | 0 | 1
 | 1 | 1 | 1 | 0
+
+## Toggle circuit
+
+### NAND-gate SR latch
+
+| S | R | Q
+|-- |-- |--
+| 0 | 0 | Undefined
+| 0 | 1 | 0
+| 1 | 0 | 1
+| 1 | 1 | Hold
+
+### Master-slave setup
+
+```
+Out = Q2
+S1 = !RESET & (!Button | Q2') = !(RESET | !(!Button | Q2'))
+R1 = !Button | Q2  = !(Button & Q2')
+S2 = Button | Q1   = !(!Button & Q1')
+R2 = Button | Q1'  = !(!Button & Q1)
+```
+
+| Button | RESET | S1  | R1 | Latch 1    | S2 | R2  | Latch 2
+|--      |--     |--   |--  |--          |--  |--   |--
+| 0      | 0     | 1   | 1  | Hold       | Q1 | Q1' | Latch SR1
+| 0      | 1     | 0   | 1  | Reset      | 0  | 1   | Reset
+| 1      | 0     | Q2' | Q2 | Invert SR2 | 1  | 1   | Hold
+| 1      | 1     | 0   | Q2 | Invert SR2 | 1  | 1   | Hold
+
+#### State transitions
+
+<img src="resources/toggle_states.png" width="600" height="480" />  
+
+#### Circuit
+
+![toggle master-slave](resources/toggle_master_slave.svg "Toggle")
