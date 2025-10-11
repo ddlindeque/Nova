@@ -89,15 +89,6 @@ CLK = !(E | RESET) = !E & !RESET = !(!D | !Enabled) & !RESET = D & Enabled & !RE
 
 ## Toggle circuit
 
-### NAND-gate SR latch
-
-| S | R | Q
-|-- |-- |--
-| 0 | 0 | Undefined
-| 0 | 1 | 0
-| 1 | 0 | 1
-| 1 | 1 | Hold
-
 ### Master-slave setup
 
 ```
