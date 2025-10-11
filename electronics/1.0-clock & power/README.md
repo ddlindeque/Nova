@@ -112,7 +112,7 @@ Note that for Button = 1, and RESET = 1, Q2 must be 1, else we have S1=0 and R1=
 
 #### State transitions
 
-<img src="resources/toggle_states.png" width="1100" height="600" />  
+<img src="resources/toggle_states.png" width="1200" height="600" />  
 
 #### Circuit
 
