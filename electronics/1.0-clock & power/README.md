@@ -91,6 +91,8 @@ CLK = !(E | RESET) = !E & !RESET = !(!D | !Enabled) & !RESET = D & Enabled & !RE
 
 ### Master-slave setup
 
+We have two SR-latches, the first one is SR1, with inputs S1 (Set) and R1 (Reset), and outputs Q1 (output) and Q1' (inverted output), and a second SR-latch called SR2, with inputs S2 and R2, and outputs Q2 and Q2'. We wire the circuit for the following logic.
+
 ```
 Out = Q2
 S1 = !RESET & (!Button | Q2') = !(RESET | !(!Button | Q2'))
