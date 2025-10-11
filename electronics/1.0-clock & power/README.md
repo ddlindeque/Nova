@@ -108,6 +108,8 @@ R2 = Button | Q1'  = !(!Button & Q1)
 | 1      | 0     | Q2' | Q2 | Invert SR2 | 1  | 1   | Hold
 | 1      | 1     | 0   | Q2 | Invert SR2 | 1  | 1   | Hold
 
+Note that for Button = 1, and RESET = 1, Q2 must be 1, else we have S1=0 and R1=0, which gives an undefined outcome.
+
 #### State transitions
 
 <img src="resources/toggle_states.png" width="600" height="480" />  
