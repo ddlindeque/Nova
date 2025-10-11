@@ -120,4 +120,4 @@ Note that for Button = 1, and RESET = 1, Q2 must be 1, else we have S1=0 and R1=
 
 #### Layout
 
-<img src="resources/toggle_layout.png" width="3400" height="2400" />  
+<img src="resources/toggle_layout.png" width="1100" height="600" />  
