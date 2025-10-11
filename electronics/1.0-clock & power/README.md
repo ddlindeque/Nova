@@ -112,8 +112,12 @@ Note that for Button = 1, and RESET = 1, Q2 must be 1, else we have S1=0 and R1=
 
 #### State transitions
 
-<img src="resources/toggle_states.png" width="600" height="480" />  
+<img src="resources/toggle_states.png" width="1100" height="600" />  
 
 #### Circuit
 
 ![toggle master-slave](resources/toggle_master_slave.svg "Toggle")
+
+#### Layout
+
+<img src="resources/toggle_layout.png" width="3400" height="2400" />  
