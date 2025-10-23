@@ -21,30 +21,38 @@ componentConnections1 = {
 componentConnections2 = dict(componentConnections1)
 componentConnections2["Not1"] = ("NOR", ["!Button", "!Button"], "Button")
 
+chips = [ {"id": "c1", "kind": "NAND", "num_gates": 4},
+          {"id": "c2", "kind": "NAND", "num_gates": 4},
+          {"id": "c3", "kind": "NOR", "num_gates": 4}
+        ]
+
 for componentConnections in [componentConnections1, componentConnections2]:
-    for chipIsNor in [0, 1, 2]:
-        for chip2Offs in range(0, 7):
-            for chip3Offs in range(0, 15):
-                # Enumerate the gate placements
-                keys = list(componentConnections.keys())
-                print("key = ", keys[0])
-                print(componentConnections[keys[0]])
-                # Create tracks matrix with chip 0 vcc and gnd fixed
-                tracks = [[None, 1,    None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [0,    None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None],
-                          [None, None, None, None, None, None]]
-                # chips might be oriented upside down
+    # Allocate gates to chip slots
+
+    # Find all layouts
+    for chip2Offs in range(0, 7):
+        for chip3Offs in range(0, 15):
+            # Create tracks matrix with chip 0 vcc and gnd fixed
+            tracks = [[None, 1,    None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [0,    None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None],
+                        [None, None, None, None, None, None]]
+            # Set chip 2 vcc and gnd
+            tracks[chip2Offs][3] = 1
+            tracks[chip2Offs+6][2] = 0
+            # Set chip 3 vcc and gnd
+            tracks[chip3Offs][5] = 1
+            tracks[chip3Offs+6][4] = 0
 
