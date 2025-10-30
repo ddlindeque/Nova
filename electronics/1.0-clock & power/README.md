@@ -118,6 +118,8 @@ Note that for Button = 1, and RESET = 1, Q2 must be 1, else we have S1=0 and R1=
 
 ![toggle master-slave](resources/toggle_master_slave.svg "Toggle")
 
+![toggle master-slave](resources/toggle_components.svg "Toggle")
+
 #### Layout
 
 <img src="resources/toggle_layout.png" width="1200" height="600" />  
